@@ -7,6 +7,10 @@
 
 ## 函数作用域
 
+通过声明函数方式定义函数，javascript引擎在预处理过程里就把函数定义和赋值操作都完成了
+
+javascript里预处理的特性: 预处理是和执行环境相关。执行环境有两大类：全局执行环境和局部执行环境，执行环境是通过上下文变量体现的，其实这个过程都是在函数执行前完成，预处理就是构造执行环境的另一个说法，总而言之预处理和构造执行环境的主要目的就是明确变量定义，分清变量的边界。但是在全局作用域构造或者说全局变量预处理时候对于声明函数有些不同，声明函数会将变量定义和赋值操作同时完成。由于声明函数都会在全局作用域构造时候完成，因此声明函数都是window对象的属性，这就说明为什么我们不管在哪里声明函数，声明函数最终都是属于window对象。
+
 在JavaScript中，使用function关键字声明的函数（不赋给变量）也会被提升。实际上，整个函数被提升，可供执行。
 
     myFunction(); //输出 "i exist"
@@ -27,6 +31,75 @@
     }
      
     myFunction();  //输出 "i exist"
+
+Javascript还有一种方式可以改变this指针，这就是call方法和apply方法，call和apply方法的作用相同，就是参数不同，call和apply的第一个参数都是一样的，但是后面参数不同，apply第二个参数是个数组，call从第二个参数开始后面有许多参数。Call和apply的作用是什么，这个很重要，重点描述如下：
+
+Call和apply是改变函数的作用域（有些书里叫做改变函数的上下文），Call和apply是将this指针指向方法的第一个参数。
+
+迷惑：我们定义对象使用对象的字面表示法，字面表示法在简单的表示里我们很容易知道this指向对象本身，但是这个对象会有方法，方法的参数可能会是函数，而这个函数的定义里也可能会使用this指针，如果传入的函数没有被实例化过和被实例化过，this的指向是不同，有时我们还想在传入函数里通过this指向外部函数或者指向被定义对象本身，这些乱七八糟的情况使用交织在一起导致this变得很复杂，结果就变得糊里糊涂。
+
+以定义对象里的方法里传入函数为例：
+
+＊情形一：传入的参数是函数的别名，那么函数的this就是指向window；
+＊情形二：传入的参数是被new过的构造函数，那么this就是指向实例化的对象本身；
+＊情形三：如果我们想把被传入的函数对象里this的指针指向外部字面量定义的对象，那么我们就是用apply和call
+
+    <script type="text/javascript">
+    var name = "I am window";
+    var obj = {
+        name:"sharpxiajun",
+        job:"Software",
+        ftn01:function(obj){
+            obj.show();
+        },
+        ftn02:function(ftn){
+            ftn();
+        },
+        ftn03:function(ftn){
+            ftn.call(this);
+        }
+    };
+    function Person(name){
+        this.name = name;
+        this.show = function(){
+            console.log("姓名:" + this.name);
+            console.log(this);
+        }
+    }
+    var p = new Person("Person");
+    obj.ftn01(p);
+    obj.ftn02(function(){
+       console.log(this.name);
+       console.log(this);
+    });
+    obj.ftn03(function(){
+        console.log(this.name);
+        console.log(this);
+    });
+    </script>
+结果如下：
+
+    姓名:Person
+    Person {name: "Person"}name: "Person"show: ()__proto__: Person
+    I am window
+    Window {top: Window, location: Location, document: document, window: Window, external: Object…})W\
+    sharpxiajun
+    Object {name: "sharpxiajun", job: "Software"}
+
+
+## new
+
+《javascript高级编程》里对new操作符的解释：
+new操作符会让构造函数产生如下变化：
+
+    1.  创建一个新对象；
+    2.  将构造函数的作用域赋给新对象（因此this就指向了这个新对象）；
+    3.  执行构造函数中的代码（为这个新对象添加属性）；
+    4.  返回新对象
+    
+第二点：一个简单识别this方式就是看方法调用前的对象是哪个this就指向哪个，其实这个过程还可以这么理解，在全局执行环境里window就是上下文对象，那么在obj里局部作用域通过obj来代表了。
+
+第四点：记住构造函数被new操作，要让new正常作用最好不能在构造函数里写return，没有return的构造函数都是按上面四点执行，有了return情况就复杂了。
 
 
 ## this
