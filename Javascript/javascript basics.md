@@ -1,3 +1,33 @@
+
+## Key
+＊ 值传递
+＊ 不允许堆内存操作
+＊ 函数 是 对象
+
+## 函数作用域
+
+在JavaScript中，使用function关键字声明的函数（不赋给变量）也会被提升。实际上，整个函数被提升，可供执行。
+
+    myFunction(); //输出 "i exist"
+     
+    function myFunction() {
+      console.log('i exist');
+    }
+
+当使用var形式来声明函数时，整个函数不会被提升：
+
+    try {
+      myFunction();
+    } catch (e) {
+      console.log(e); //抛出 "Uncaught TypeError: undefined is not a function"
+    }
+    var myFunction = function() {
+      console.log('i exist');
+    }
+     
+    myFunction();  //输出 "i exist"
+
+
 ## this
 在JavaScript中，this 的概念比较复杂。除了在面向对象编程中，this 还是随处可用的。这篇文章介绍了this 的工作原理，它会造成什么样的问题以及this 的相关例子。 要根据this 所在的位置来理解它，情况大概可以分为3种：
 
