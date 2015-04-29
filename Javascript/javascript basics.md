@@ -127,133 +127,133 @@ eval()可以被直接（通过调用这个函数名’eval’）或者间接（�
 
 1. 忘记使用new
 
-如果你不是使用new来调用构造器，那其实你就是在使用一个实函数。因此this就不会是你预期的值。在Sloppy模式中，this 指向的就是window 而你将会创建全局变量：
+    如果你不是使用new来调用构造器，那其实你就是在使用一个实函数。因此this就不会是你预期的值。在Sloppy模式中，this 指向的就是window 而你将会创建全局变量：
+        
+        function Point(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+        var p = Point(7, 5); // we forgot new!
+        console.log(p === undefined); // true
+         
+        // Global variables have been created:
+        console.log(x); // 7
+        console.log(y); // 5
+        不过如果使用的是strict模式，那你还是会得到警告（this===undefined）：
+        
+        function Point(x, y) {
+            'use strict';
+            this.x = x;
+            this.y = y;
+        }
+        var p = Point(7, 5);
+        // TypeError: Cannot set property 'x' of undefined
     
-    function Point(x, y) {
-        this.x = x;
-        this.y = y;
-    }
-    var p = Point(7, 5); // we forgot new!
-    console.log(p === undefined); // true
-     
-    // Global variables have been created:
-    console.log(x); // 7
-    console.log(y); // 5
-    不过如果使用的是strict模式，那你还是会得到警告（this===undefined）：
-    
-    function Point(x, y) {
-        'use strict';
-        this.x = x;
-        this.y = y;
-    }
-    var p = Point(7, 5);
-    // TypeError: Cannot set property 'x' of undefined
-
 2. 不恰当地使用方法
 
-如果你直接取得一个方法的值（不是调用它），你就是把这个方法当做函数在用。当你要将一个方法当做一个参数传入一个函数或者一个调用方法中，你很可能会这么做。setTimeout()和注册事件句柄（event handlers）就是这种情况。我将会使用callIt()方法来模拟这个场景：
-
+    如果你直接取得一个方法的值（不是调用它），你就是把这个方法当做函数在用。当你要将一个方法当做一个参数传入一个函数或者一个调用方法中，你很可能会这么做。setTimeout()和注册事件句柄（event handlers）就是这种情况。我将会使用callIt()方法来模拟这个场景：
     
-    /** Similar to setTimeout() and setImmediate() */
-    function callIt(func) {
-        func();
-    }
-    
-如果你是在Sloppy模式下将一个方法当做函数来调用，*this*指向的就是全局对象，所以之后创建的都会是全局的变量。
-
-    var counter = {
-        count: 0,
-        // Sloppy-mode method
-        inc: function () {
-            this.count++;
+        
+        /** Similar to setTimeout() and setImmediate() */
+        function callIt(func) {
+            func();
         }
-    }
-    callIt(counter.inc);
-     
-    // Didn’t work:
-    console.log(counter.count); // 0
-     
-    // Instead, a global variable has been created
-    // (NaN is result of applying ++ to undefined):
-    console.log(count);  // NaN
+        
+    如果你是在Sloppy模式下将一个方法当做函数来调用，*this*指向的就是全局对象，所以之后创建的都会是全局的变量。
     
-如果你是在Strict模式下这么做的话，this是undefined的，你还是得不到想要的结果，不过至少你会得到一句警告：
-    
-    var counter = {
-        count: 0,
-        // Strict-mode method
-        inc: function () {
-            'use strict';
-            this.count++;
+        var counter = {
+            count: 0,
+            // Sloppy-mode method
+            inc: function () {
+                this.count++;
+            }
         }
-    }
-    callIt(counter.inc);
-     
-    // TypeError: Cannot read property 'count' of undefined
-    console.log(counter.count);
-    
-要想得到预期的结果，可以使用bind()：
-
-    var counter = {
-        count: 0,
-        inc: function () {
-            this.count++;
+        callIt(counter.inc);
+         
+        // Didn’t work:
+        console.log(counter.count); // 0
+         
+        // Instead, a global variable has been created
+        // (NaN is result of applying ++ to undefined):
+        console.log(count);  // NaN
+        
+    如果你是在Strict模式下这么做的话，this是undefined的，你还是得不到想要的结果，不过至少你会得到一句警告：
+        
+        var counter = {
+            count: 0,
+            // Strict-mode method
+            inc: function () {
+                'use strict';
+                this.count++;
+            }
         }
-    }
-    callIt(counter.inc.bind(counter));
-    // It worked!
-    console.log(counter.count); // 1
+        callIt(counter.inc);
+         
+        // TypeError: Cannot read property 'count' of undefined
+        console.log(counter.count);
+        
+    要想得到预期的结果，可以使用bind()：
     
-bind()又创建了一个总是能将this的值设置为counter 的函数。
+        var counter = {
+            count: 0,
+            inc: function () {
+                this.count++;
+            }
+        }
+        callIt(counter.inc.bind(counter));
+        // It worked!
+        console.log(counter.count); // 1
+        
+    bind()又创建了一个总是能将this的值设置为counter 的函数。
 
 3. 隐藏this
 
-当你在方法中使用函数的时候，常常会忽略了函数是有自己的this 的。这个this 又有别于方法，因此你不能把这两个this 混在一起使用。具体的请看下面这段代码：
+    当你在方法中使用函数的时候，常常会忽略了函数是有自己的this 的。这个this 又有别于方法，因此你不能把这两个this 混在一起使用。具体的请看下面这段代码：
+        
+        var obj = {
+            name: 'Jane',
+            friends: [ 'Tarzan', 'Cheeta' ],
+            loop: function () {
+                'use strict';
+                this.friends.forEach(
+                    function (friend) {
+                        console.log(this.name+' knows '+friend);
+                    }
+                );
+            }
+        };
+        obj.loop();
+        // TypeError: Cannot read property 'name' of undefined
+        
+    上面的例子里函数中的this.name 不能使用，因为函数的this 的值是undefined，这和方法loop()中的this 不一样。下面提供了三种思路来解决这个问题：
     
-    var obj = {
-        name: 'Jane',
-        friends: [ 'Tarzan', 'Cheeta' ],
-        loop: function () {
-            'use strict';
-            this.friends.forEach(
-                function (friend) {
+    * that=this，[Never Do This!] 将this 赋值到一个变量上，这样就把this 显性地表现出来了（除了that，self 也是个很常见的用于存放this的变量名），之后就使用那个变量：
+        
+            loop: function () {
+                'use strict';
+                var that = this;
+                this.friends.forEach(function (friend) {
+                    console.log(that.name+' knows '+friend);
+                });
+            }
+        
+    * bind()。使用bind()来创建一个函数，这个函数的this 总是存有你想要传递的值（下面这个例子中，方法的this）：
+        
+            loop: function () {
+                'use strict';
+                this.friends.forEach(function (friend) {
                     console.log(this.name+' knows '+friend);
-                }
-            );
-        }
-    };
-    obj.loop();
-    // TypeError: Cannot read property 'name' of undefined
-    
-上面的例子里函数中的this.name 不能使用，因为函数的this 的值是undefined，这和方法loop()中的this 不一样。下面提供了三种思路来解决这个问题：
-
-* that=this，[Never Do This!] 将this 赋值到一个变量上，这样就把this 显性地表现出来了（除了that，self 也是个很常见的用于存放this的变量名），之后就使用那个变量：
-    
-    loop: function () {
-        'use strict';
-        var that = this;
-        this.friends.forEach(function (friend) {
-            console.log(that.name+' knows '+friend);
-        });
-    }
-    
-* bind()。使用bind()来创建一个函数，这个函数的this 总是存有你想要传递的值（下面这个例子中，方法的this）：
-    
-    loop: function () {
-        'use strict';
-        this.friends.forEach(function (friend) {
-            console.log(this.name+' knows '+friend);
-        }.bind(this));
-    }
-    
-* 用forEach的第二个参数。forEach的第二个参数会被传入回调函数中，作为回调函数的this 来使用。
-    
-    loop: function () {
-        'use strict';
-        this.friends.forEach(function (friend) {
-            console.log(this.name+' knows '+friend);
-        }, this);
-    }
+                }.bind(this));
+            }
+        
+    * 用forEach的第二个参数。forEach的第二个参数会被传入回调函数中，作为回调函数的this 来使用。
+        
+            loop: function () {
+                'use strict';
+                this.friends.forEach(function (friend) {
+                    console.log(this.name+' knows '+friend);
+                }, this);
+            }
 
 ### 最佳实践
 
