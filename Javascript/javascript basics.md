@@ -391,3 +391,151 @@ eval()可以被直接（通过调用这个函数名’eval’）或者间接（�
             }
         });
     });
+
+
+### 函数绑定(Function binding) —— 解决如何在另一个函数中保持this上下文
+
+Archibald 关于缓存 this 的微博(twitter)：
+
+Jake Archibald: “我会为了作用域做任何事情，但是我不会使用 that = this”
+
+我对这个问题更清晰的认识是在我看到Sindre Sorhus更清楚的描述之后：
+
+Sindre Sorhus：“在jQuery中使用$this，但是对于纯JS我不会，我会使用.bind()”
+
+## 浏览器支持
+
+Browser	Version support
+Chrome	7
+Firefox (Gecko)	4.0 (2)
+Internet Explorer	9
+Opera	11.60
+Safari	5.1.4
+正如你看到的，很不幸，Function.prototype.bind 在IE8及以下的版本中不被支持，所以如果你没有一个备用方案的话，可能在运行时会出现问题。
+
+幸运的是，Mozilla Developer Network（很棒的资源库），为没有自身实现 .bind() 方法的浏览器提供了一个绝对可靠的替代方案：
+
+    if (!Function.prototype.bind) {
+      Function.prototype.bind = function (oThis) {
+        if (typeof this !== "function") {
+          // closest thing possible to the ECMAScript 5 internal IsCallable function
+          throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+        }
+ 
+        var aArgs = Array.prototype.slice.call(arguments, 1), 
+            fToBind = this, 
+            fNOP = function () {},
+            fBound = function () {
+              return fToBind.apply(this instanceof fNOP &amp;&amp; oThis
+                                     ? this
+                                     : oThis,
+                                   aArgs.concat(Array.prototype.slice.call(arguments)));
+            };
+ 
+        fNOP.prototype = this.prototype;
+        fBound.prototype = new fNOP();
+ 
+        return fBound;
+      };
+    }
+ 
+## 适用的模式
+
+在学习技术点的时候，我发现有用的不仅仅在于彻底学习和理解概念，更在于看看在手头的工作中有没有适用它的地方，或者比较接近它的的东西。我希望，下面的某些例子能够适用于你的代码或者解决你正在面对的问题。
+
+### CLICK HANDLERS（点击处理函数）
+一个用途是记录点击事件（或者在点击之后执行一个操作），这可能需要我们在一个对象中存入一些信息，比如：
+
+var logger = {
+    x: 0,       
+    updateCount: function(){
+        this.x++;
+        console.log(this.x);
+    }
+}
+我们可能会以下面的方式来指定点击处理函数，随后调用 logger 对象中的 updateCount() 方法。
+
+
+document.querySelector('button').addEventListener('click', function(){
+    logger.updateCount();
+});
+但是我们必须要创建一个多余的匿名函数，来确保 updateCount()函数中的 this 关键字有正确的值。
+
+我们可以使用如下更干净的方式：
+
+document.querySelector('button').addEventListener('click', logger.updateCount.bind(logger));
+我们巧妙地使用了方便的 .bind() 函数来创建一个新的函数，而将它的作用域绑定为 logger 对象。
+
+SETTIMEOUT
+如果你使用过模板引擎（比如Handlebars）或者尤其使用过某些MV*框架（从我的经验我只能谈论Backbone.js），那么你也许知道下面讨论的关于在渲染模板之后立即访问新的DOM节点时会遇到的问题。
+
+假设我们想要实例化一个jQuery插件：
+
+var myView = {
+ 
+    template: '/* 一个包含 <select /> 的模板字符串*/',
+ 
+    $el: $('#content'),
+ 
+    afterRender: function () {
+        this.$el.find('select').myPlugin();
+    },
+ 
+    render: function () {
+        this.$el.html(this.template());
+        this.afterRender();
+    }
+}
+ 
+myView.render();
+你或许发现它能正常工作——但并不是每次都行，因为里面存在着问题。这是一个竞争的问题：只有先到达的才能获胜。有时候是渲染先到，而有时候是插件的实例化先到。【译者注：如果渲染过程还没有完成（DOM Node还没有被添加到DOM树上），那么find(‘select’)将无法找到相应的节点来执行实例化。】
+
+现在，或许并不被很多人知晓，我们可以使用基于 setTimeout() 的 slight hack来解决问题。
+
+我们稍微改写一下我们的代码，就在DOM节点加载后再安全的实例化我们的jQuery插件：
+
+    afterRender: function () {
+        this.$el.find('select').myPlugin();
+    },
+ 
+    render: function () {
+        this.$el.html(this.template());
+        setTimeout(this.afterRender, 0);        
+    }
+ 
+然而，我们获得的是 函数 .afterRender() 不能找到 的错误信息。
+
+我们接下来要做的，就是将.bind()使用到我们的代码中：
+
+    afterRender: function () {
+        this.$el.find('select').myPlugin();
+    },
+ 
+    render: function () {
+        this.$el.html(this.template());
+        setTimeout(this.afterRender.bind(this), 0);        
+    }
+ 
+现在，我们的 afterRender() 函数就能够在正确的上下文环境中执行了。
+
+### 梳理基于 QUERYSELECTORALL的事件绑定
+如今的DOM API引入了很多非常有用的方法，比如 querySelector, querySelectorAll 和 classList接口，这些方法给DOM API带来了非常显著的进步。
+
+然而，迄今为止并没有一个真正的原生的为 NodeList 添加事件的方法。于是我们最终从 Array.prototype中剽窃了 forEach 方法来完成遍历，例如：
+
+Array.prototype.forEach.call(document.querySelectorAll('.klasses'), function(el){
+    el.addEventListener('click', someFunction);
+});
+仍然，我们可以做的更好，通过使用我们的好朋友 .bind()。
+
+var unboundForEach = Array.prototype.forEach,
+    forEach = Function.prototype.call.bind(unboundForEach);
+ 
+forEach(document.querySelectorAll('.klasses'), function (el) {
+    el.addEventListener('click', someFunction);
+});
+现在，我们拥有了一个简洁的遍历DOM节点的函数。
+
+## 结论
+正如你所看到的，.bind() 函数可以巧妙地运用于很多不同的用途，同时可以精简现有的代码。但愿这篇概述的内容，能够在你想在代码中使用.bind()（如果需要的话）时派上用场，并且帮助你更好地驾驭改变this值所带来的好处。
+
