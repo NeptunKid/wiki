@@ -40,3 +40,4 @@
 |  移动端Web开发调试之Chrome远程调试(Remote Debugging) | 清枫草塘 | 01/08/2015 | http://blog.csdn.net/freshlover/article/details/42528643 | 
 | 移动端前端开发调试 | 于江水 | 01/21/2015 | http://yujiangshui.com/multidevice-frontend-debug/ |
 | 实现微信webview模拟器 | raphealguo | 10/12/2014 | http://sentsin.com/web/244.html | 
+| 真机远程调试 方法 汇总 ｜ jieyou | 10/27/2014 |https://github.com/jieyou/remote_inspect_web_on_real_device |
