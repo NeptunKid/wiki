@@ -38,3 +38,5 @@
 | 手机端网页调试方案 | HumphryHumphry | 13/03/2015 | http://segmentfault.com/a/1190000000313211 |
 | Web应用调试：现在是Weinre和JSConsole，最终会是WebKit的远程调试协议 | Werner Schuster/杨晨 | 08/06/2011 | http://www.infoq.com/cn/news/2011/08/mobile-web-debugging |
 |  移动端Web开发调试之Chrome远程调试(Remote Debugging) | 清枫草塘 | 01/08/2015 | http://blog.csdn.net/freshlover/article/details/42528643 | 
+| 移动端前端开发调试 | 于江水 | 01/21/2015 | http://yujiangshui.com/multidevice-frontend-debug/ |
+| 实现微信webview模拟器 | raphealguo | 10/12/2014 | http://sentsin.com/web/244.html | 
