@@ -523,17 +523,23 @@ myView.render();
 
 然而，迄今为止并没有一个真正的原生的为 NodeList 添加事件的方法。于是我们最终从 Array.prototype中剽窃了 forEach 方法来完成遍历，例如：
 
+```javascript
 Array.prototype.forEach.call(document.querySelectorAll('.klasses'), function(el){
     el.addEventListener('click', someFunction);
 });
+```
+
 仍然，我们可以做的更好，通过使用我们的好朋友 .bind()。
 
+```javascript
 var unboundForEach = Array.prototype.forEach,
     forEach = Function.prototype.call.bind(unboundForEach);
  
 forEach(document.querySelectorAll('.klasses'), function (el) {
     el.addEventListener('click', someFunction);
 });
+```
+
 现在，我们拥有了一个简洁的遍历DOM节点的函数。
 
 ## 结论
