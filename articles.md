@@ -8,6 +8,8 @@
 | Web Animation Infographics: A Map of the Best Animation Libraries for JavaScript and CSS3 plus Performance Tips| awwwards-team | 04/30/2015 | http://www.awwwards.com/web-animation-infographics-a-map-of-the-best-animation-libraries-for-javascript-and-css3-plus-performance-tips.html |
 | CSS vs JavaScript Animations | Paul Lewis | 10/20/2014 | https://developers.google.com/web/fundamentals/look-and-feel/animations/css-vs-javascript | 
 | CSS animations and transitions performance: looking inside the browser | Max Vujovic | 03/18/2014 | https://blogs.adobe.com/webplatform/2014/03/18/css-animations-and-transitions-performance/ |
+| requestAnimationFrame for Smart Animating | Paul Irish | 02/22/2011 | http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+
 
 
 ## Javascript Language
