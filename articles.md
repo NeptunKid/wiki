@@ -13,6 +13,8 @@
 | #perfmatters - Performance Tooling | Paul Irish | 12/06/2014 | https://docs.google.com/presentation/d/19R_E5B__kdE55L1bTpS6IFKbYbHq-PQKKky4do5Yc6A/edit# | 
 | CSS Triggers .. | Paul Lewis | 01/29/2015 | http://csstriggers.com/ |
 
+## Broser Engineering
+| Activating Browser Modes with Doctype | Henri Sivonen | 03/09/2013 | https://hsivonen.fi/doctype/#ie8 | 
 
 ## Javascript Language
 
@@ -29,6 +31,7 @@
 | Article  | Author  | Fresh Since | Link |
 | :---------------- |:----------:| :-------| :--------------- | 
 | CSS properties by style operation required| … | … | https://docs.google.com/a/google.com/spreadsheets/d/1Hvi0nu2wG3oQ51XRHtMv-A_ZlidnwUYwgQsPQUg1R2s/pub?single=true&gid=0&output=html |
+| CSS animations and transitions performance: looking inside the browser | Max Vujovic | 03/18/2014 |  https://blogs.adobe.com/webplatform/2014/03/18/css-animations-and-transitions-performance/ | 
 | The Future of CSS Layout presentation at Future of Web Design conference | Zoe Mickley Gillenwater | October 22, 2012 | http://zomigi.com/blog/future-css-layout-fowd/ |
 | Making Sense of Clip Path | Drew Minns | 04/14/2015 | https://medium.com/@drewisthe/using-making-sense-of-clip-path-cf651676438c |
 | Getting started with CSS custom filters | ... | ... | http://alteredqualia.com/css-shaders/article/
