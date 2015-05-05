@@ -9,7 +9,9 @@
 | CSS vs JavaScript Animations | Paul Lewis | 10/20/2014 | https://developers.google.com/web/fundamentals/look-and-feel/animations/css-vs-javascript | 
 | CSS animations and transitions performance: looking inside the browser | Max Vujovic | 03/18/2014 | https://blogs.adobe.com/webplatform/2014/03/18/css-animations-and-transitions-performance/ |
 | requestAnimationFrame for Smart Animating | Paul Irish | 02/22/2011 | http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
-
+| Myth Busting: CSS Animations vs. JavaScript | Jack Doyle | 01/13/2014 | https://css-tricks.com/myth-busting-css-animations-vs-javascript/ | 
+| #perfmatters - Performance Tooling | Paul Irish | 12/06/2014 | https://docs.google.com/presentation/d/19R_E5B__kdE55L1bTpS6IFKbYbHq-PQKKky4do5Yc6A/edit# | 
+| CSS Triggers .. | Paul Lewis | 01/29/2015 | http://csstriggers.com/ |
 
 
 ## Javascript Language
@@ -20,7 +22,7 @@
 | 深入理解Promise实现细节 | EdwardUp | 03/11/2015 | http://segmentfault.com/a/1190000002591145 |
 | q/design/README.js | evverx | 03/25/2015 | https://github.com/kriskowal/q/blob/v2/design/README.js |
 | jQuery的编码标准和最佳实践 | 天涯孤雁 | 06/04/2014 | http://www.css88.com/archives/4836 | 
-| javaScript 依赖管理 | bearcat | ... | http://bearcatjs.org/%E5%8D%9A%E5%AE%A2/index.html
+| javaScript 依赖管理 | bearcat | ... | http://bearcatjs.org/%E5%8D%9A%E5%AE%A2/index.html |
 
 
 ## CSS 
