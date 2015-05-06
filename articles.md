@@ -23,11 +23,13 @@
 | Article | Author  | Fresh Since | Link |
 | :---------------- |:------------:| :-------| :--------------- | 
 | Data-binding Revolutions with Object.observe() | Addy Osmani | 03/20/2014 | http://www.html5rocks.com/en/tutorials/es7/observe/ |
+| JavaScript Promises | Jake Archibald | 01/29/2014 | http://www.html5rocks.com/zh/tutorials/es6/promises/ | 
 | 深入理解Promise实现细节 | EdwardUp | 03/11/2015 | http://segmentfault.com/a/1190000002591145 |
 | q/design/README.js | evverx | 03/25/2015 | https://github.com/kriskowal/q/blob/v2/design/README.js |
 | jQuery的编码标准和最佳实践 | 天涯孤雁 | 06/04/2014 | http://www.css88.com/archives/4836 | 
 | javaScript 依赖管理 | bearcat | ... | http://bearcatjs.org/%E5%8D%9A%E5%AE%A2/index.html |
 | JavaScript Module Pattern: In-Depth |ben cherry | 03/12/2010 | http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html |
+
 
 ## CSS 
 | Article  | Author  | Fresh Since | Link |
