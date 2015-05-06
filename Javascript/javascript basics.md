@@ -86,6 +86,94 @@ Call和apply是改变函数的作用域（有些书里叫做改变函数的上�
     sharpxiajun
     Object {name: "sharpxiajun", job: "Software"}
 
+## 立即调用的函数表达式（IIFE)
+
+Immediately-Invoked Function Expression - http://benalman.com/news/2010/11/immediately-invoked-function-expression/#iife)
+简单的理解就是定义完成函数之后立即执行。
+比较常见的三种写法：
+```javascript
+// Crockford's preference - parens on the inside
+(function() {
+  console.log('Welcome to the Internet. Please follow me.');
+}());
+
+(function() {
+  console.log('Welcome to the Internet. Please follow me.');
+})();
+
+!function() {
+  console.log('Welcome to the Internet. Please follow me.');
+}();
+``` 
+如果对于其返回值没有特别的要求的话，我们还可以这样写：
+```javascript
+!function(){}();  // => true
+~function(){}(); // => -1
++function(){}(); // => NaN
+-function(){}();  // => NaN
+```
+
+或者也可以这样：
+```javascript
+~(function(){})();
+void function(){}();
+true && function(){ /* code */ }();
+15.0, function(){ /* code */ }();
+```
+甚至，还可以这样写：
+```javascript
+new function(){ /* code */ }
+31.new function(){ /* code */ }() //如果没有参数，最后的()就不需要了
+```
+看看 Ben Alman 引用的 Dmitry A. Soshnikov 的例子如下：
+console.log( typeof f )
+function f(){ console.log('called') }(1)
+
+我做了点小修改，你可以尝试运行一下。函数 f 的定义被提升了，但并没有被立即调用——后面一行相当于在花括号闭合后，加入分号断行了。
+
+Ben Alman 已经解释得很清楚了，我再复述一下。
+语法错误的两种原因：
+1) function (){ }()
+期望是立即调用一个匿名函数表达式，结果是进行了函数声明，函数声明必须要有标识符做为函数名称。
+
+2) function g(){ }()
+期望是立即调用一个具名函数表达式，结果是声明了函数 g。末尾的括号作为分组运算符，必须要提供表达式做为参数。
+
+所以那些匿名函数附近使用括号或一些一元运算符的惯用法，就是来引导解析器，指明运算符附近是一个表达式。
+按照这个理解，可以举出五类，超过十几种的让匿名函数表达式立即调用的写法：
+
+```javascript
+( function() {}() );
+( function() {} )();
+[ function() {}() ];
+
+~ function() {}();
+! function() {}();
++ function() {}();
+- function() {}();
+
+delete function() {}();
+typeof function() {}();
+void function() {}();
+new function() {}();
+new function() {};
+
+var f = function() {}();
+
+1, function() {}();
+1 ^ function() {}();
+1 > function() {}();
+// ...
+```
+
+另外值得再次注意的是，括号的含混使用——它可以用来执行一个函数，还可以做为分组运算符来对表达式求值。
+比如使用圆括号或方括号的话，可以在行首加一个分号，避免被用做函数执行或下标运算：
+```javascript
+g()
+// 可能放了几行注释——不知道是用自动化脚本合并的文件，还是哪里拷的函数。
+;( function() {}() )
+```
+
 
 ## new
 
@@ -456,9 +544,11 @@ var logger = {
 我们可能会以下面的方式来指定点击处理函数，随后调用 logger 对象中的 updateCount() 方法。
 
 
+```javascript 
 document.querySelector('button').addEventListener('click', function(){
     logger.updateCount();
 });
+```
 但是我们必须要创建一个多余的匿名函数，来确保 updateCount()函数中的 this 关键字有正确的值。
 
 我们可以使用如下更干净的方式：
