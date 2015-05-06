@@ -25,7 +25,7 @@
 | q/design/README.js | evverx | 03/25/2015 | https://github.com/kriskowal/q/blob/v2/design/README.js |
 | jQuery的编码标准和最佳实践 | 天涯孤雁 | 06/04/2014 | http://www.css88.com/archives/4836 | 
 | javaScript 依赖管理 | bearcat | ... | http://bearcatjs.org/%E5%8D%9A%E5%AE%A2/index.html |
-
+| JavaScript Module Pattern: In-Depth |ben cherry | 03/12/2010 | http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html |
 
 ## CSS 
 | Article  | Author  | Fresh Since | Link |
