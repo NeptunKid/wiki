@@ -126,12 +126,13 @@ new function(){ /* code */ }
 31.new function(){ /* code */ }() //如果没有参数，最后的()就不需要了
 ```
 看看 Ben Alman 引用的 Dmitry A. Soshnikov 的例子如下：
+```javascript
 console.log( typeof f )
 function f(){ console.log('called') }(1)
+```
 
-我做了点小修改，你可以尝试运行一下。函数 f 的定义被提升了，但并没有被立即调用——后面一行相当于在花括号闭合后，加入分号断行了。
+函数 f 的定义被提升了，但并没有被立即调用——后面一行相当于在花括号闭合后，加入分号断行了。
 
-Ben Alman 已经解释得很清楚了，我再复述一下。
 语法错误的两种原因：
 1) function (){ }()
 期望是立即调用一个匿名函数表达式，结果是进行了函数声明，函数声明必须要有标识符做为函数名称。
