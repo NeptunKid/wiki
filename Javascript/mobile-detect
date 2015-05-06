@@ -1,0 +1,4 @@
+* Modernizr/yepnope : http://modernizr.com/docs/#load
+* User-agent based: https://www.npmjs.com/package/mobile-detect
+* Media Queries: https://github.com/borismus/device.js  (using document.querySelectorAl)
+* 
