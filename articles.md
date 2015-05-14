@@ -37,6 +37,8 @@
 | :---------------- |:----------:| :-------| :--------------- | 
 | CSS Code Style | mdo | ... | http://codeguide.co/ |
 | CSS Style Guides | Chris Coyier | 08/2012 | https://css-tricks.com/css-style-guides/ |
+| High-level advice and guidelines for writing sane, manageable, scalable CSS | Harry Roberts | 03/15/2015 | http://cssguidelin.es/ |
+| Writing efficient CSS selectors | Harry | 09/17/2011 | http://csswizardry.com/2011/09/writing-efficient-css-selectors/ | 
 | CSS properties by style operation required| … | … | https://docs.google.com/a/google.com/spreadsheets/d/1Hvi0nu2wG3oQ51XRHtMv-A_ZlidnwUYwgQsPQUg1R2s/pub?single=true&gid=0&output=html |
 | CSS animations and transitions performance: looking inside the browser | Max Vujovic | 03/18/2014 |  https://blogs.adobe.com/webplatform/2014/03/18/css-animations-and-transitions-performance/ | 
 | The Future of CSS Layout presentation at Future of Web Design conference | Zoe Mickley Gillenwater | October 22, 2012 | http://zomigi.com/blog/future-css-layout-fowd/ |
