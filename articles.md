@@ -32,6 +32,12 @@
 | ECMA-262-3 in detail. Chapter 5. Functions | Dmitry Soshnikov | 04/05/2010 | http://dmitrysoshnikov.com/ecmascript/chapter-5-functions/ |
 
 
+## Javascript Advanced
+| Article | Author  | Fresh Since | Link |
+| :---------------- |:------------:| :-------| :--------------- | 
+|Introduction to Object-Oriented JavaScript | fscholz | May 11, 2015 | https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript |
+
+
 ## CSS 
 | Article  | Author  | Fresh Since | Link |
 | :---------------- |:----------:| :-------| :--------------- | 
