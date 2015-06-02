@@ -1,6 +1,6 @@
+盘点8种CSS实现垂直居中水平居中的绝对定位居中技术
 
- 盘点8种CSS实现垂直居中水平居中的绝对定位居中技术
-
+http://blog.csdn.net/freshlover/article/details/11579669
 
 
 Ⅰ.绝对定位居中(Absolute Centering)技术
@@ -18,10 +18,7 @@
   5. }  
 
 我不是这种实现方法的第一人，可能这只是非常常见的一种小技术，我斗胆将其命名为绝对居中(Absolute Centering)，虽然如此，但是大多数讨论垂直居中的文章却从来不提这种方法，直到我最近浏览《How to Center Anything WithCSS》这篇文章的评论时候才发现这种用法。在评论列表中Simon和Priit都提及了此方法。
-如果你有任何扩展的功能或建议，可以在此跟帖：
-CodePen
-SmashingMagazine
-Twitter @shshaw
+
 优点：
 1.支持跨浏览器，包括IE8-IE10.
 2.无需其他特殊标记，CSS代码量少
@@ -39,56 +36,7 @@ Chrome,Firefox, Safari, Mobile Safari, IE8-10.
 绝对定位方法在最新版的Chrome,Firefox, Safari, Mobile Safari, IE8-10.上均测试通过。
 对比表格：
 绝对居中法并不是唯一的实现方法，实现垂直居中还有些其他的方法，并各有各的优势。采用哪种技术取决于你的浏览器是否支持和你使用的语言标记。这个对照表有助于你根据自己的需求做出正确的选择。
- 
-Technique
-Browser Support
-Responsive
-Overflow
-resize:both
-Variable Height
-Major Caveats
-Absolute Centering
-Modern & IE8+
-Yes
-Scroll, can overflow container
-Yes
-Yes*
-Variable Height not perfect cross-browser
-Negative Margins
-All
-No
-Scroll
-Resizes but doesn't stay centered
-No
-Not responsive, margins must be calculated manually
-Transforms
-Modern & IE9+
-Yes
-Scroll, can overflow container
-Yes
-Yes
-Blurry rendering
-Table-Cell
-Modern & IE8+
-Yes
-Expands container
-No
-Yes
-Extra markup
-Inline-Block
-Modern, IE8+ & IE7*
-Yes
-Expands container
-No
-Yes
-Requires container, hacky styles
-Flexbox
-Modern & IE10+
-Yes
-Scroll, can overflow container
-Yes
-Yes
-Requires container, vendor prefixes
+
  
 解释：
 通过以上描述，绝对居中（AbsoluteCentering）的工作机理可以阐述如下：
