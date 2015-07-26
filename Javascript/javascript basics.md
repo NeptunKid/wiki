@@ -664,3 +664,77 @@ forEach(document.querySelectorAll('.klasses'), function (el) {
 ## 结论
 正如你所看到的，.bind() 函数可以巧妙地运用于很多不同的用途，同时可以精简现有的代码。但愿这篇概述的内容，能够在你想在代码中使用.bind()（如果需要的话）时派上用场，并且帮助你更好地驾驭改变this值所带来的好处。
 
+## Dom Selectors
+getElementById,
+getElementsByName,
+getElementsByTagName
+getElementsByClassName
+querySelector
+querySelectorAll
+
+
+```javascript
+document.querySelector("div.test>p:first-child");
+document.querySelectorAll("div.test>p:first-child")[0];
+```
+querySelector 和 querySelectorAll 的区别在于 querySelector 用来获取一个元素，而querySelectorAll 可以获取多个元素。querySelector 将返回匹配到的第一个元素，如果没有匹配的元素则返回 Null。querySelectorAll 返回一个包含匹配到的元素的数组，如果没有匹配的元素则返回的数组为空。
+```javascript
+var emphasisText = document.querySelectorAll(".emphasis");
+for( var i = 0 , j = emphasisText.length ; i < j ; i++ ){
+    emphasisText[i].style.fontWeight = "bold";
+}
+```
+
+这是原生方法，比起jquery速度快，缺点是IE6、7不支持。
+
+W3C的规范与库中的实现
+
+querySelector：return the first matching Element node within the node’s subtrees. If there is no such node, the method must return null .（返回指定元素节点的子树中匹配selector的集合中的第一个，如果没有匹配，返回null）
+
+querySelectorAll：return a NodeList containing all of the matching Element nodes within the node’s subtrees, in document order. If there are no such nodes, the method must return an empty NodeList. （返回指定元素节点的子树中匹配selector的节点集合，采用的是深度优先预查找；如果没有匹配的，这个方法返回空集合）
+
+这在BaseElement 为document的时候，没有什么问题，各浏览器的实现基本一致；但是，当BaseElement 为一个普通的dom Node的时候（支持这两个方法的dom Node ），浏览器的实现就有点奇怪了，举个例子：
+
+```javascript
+<div class= "test"   id= "testId" >
+     <p><span>Test</span></p>
+</div>
+<script type= "text/javascript" >    
+     var   testElement= document.getElementById( 'testId' ); 
+     var   element = testElement.querySelector( '.test span' ); 
+     var   elementList = document.querySelectorAll( '.test span' ); 
+     console.log(element);  // <span>Test</span>
+     console.log(elementList);  // 1   
+</script>
+```
+按照W3C的来理解，这个例子应该返回：element：null；elementList：[];因为作为baseElement的 testElement里面根本没有符合selectors的匹配子节点；但浏览器却好像无视了baseElement，只在乎selectors，也就是说此时baseElement近乎document；这和我们的预期结果不合，也许随着浏览器的不断升级，这个问题会得到统一口径！
+
+人的智慧总是无穷的，Andrew Dupont发明了一种方法暂时修正了这个怪问题，就是在selectors前面指定baseElement的id，限制匹配的范围；这个方法被广泛的应用在各大流行框架中；
+
+Jquery的实现：
+
+```javascript
+var   oldContext = context,
+old = context.getAttribute(  "id"   ),
+nid = old || id,
+try   {
+    if   ( !relativeHierarchySelector || hasParent ) {
+        return   makeArray( context.querySelectorAll(  "[id='"   + nid +  "'] "   + query ), extra );
+    }   
+} 
+catch (pseudoError) {}
+finally {
+    if   ( !old ) {
+        oldContext.removeAttribute(  "id"   );
+    }
+}
+```
+先不看这点代码中其他的地方，只看他如何实现这个方法的；这点代码是JQuery1.6的片段；当baseElement没有ID的时候，给他设置一个id = "__sizzle__”，然后再使用的时候加在selectors的前面，做到范围限制；context.querySelectorAll( "[id='" + nid + "'] " + query ；最后，因为这个ID本身不是baseElement应该有的，所以，还需要移除：oldContext.removeAttribute( "id" ); ，Mootools的实现：
+
+```javascript
+var   currentId = _context.getAttribute( 'id' ), slickid =  'slickid__' ;
+_context.setAttribute( 'id' , slickid);
+_expression =  '#'   + slickid +  ' '   + _expression;
+context = _context.parentNode;
+```
+Mootools和Jquery类似：只不过slickid = 'slickid__'；其实意义是一样的；方法兼容性：FF3.5+/IE8+/Chrome 1+/opera 10+/Safari 3.2+;IE 8 ：不支持baseElement为object；
