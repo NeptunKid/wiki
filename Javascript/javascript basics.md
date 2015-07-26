@@ -738,3 +738,6 @@ _expression =  '#'   + slickid +  ' '   + _expression;
 context = _context.parentNode;
 ```
 Mootools和Jquery类似：只不过slickid = 'slickid__'；其实意义是一样的；方法兼容性：FF3.5+/IE8+/Chrome 1+/opera 10+/Safari 3.2+;IE 8 ：不支持baseElement为object；
+
+## jQuery Selector
+jQuery内部使用Sizzle引擎，处理各种选择器。Sizzle引擎的选择顺序是从右到左.
