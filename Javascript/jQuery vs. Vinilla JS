@@ -1,0 +1,6 @@
+
+'If you REALLY want speed, then you should be programming in Assembly Language.  '
+Alan from jQuery Team
+
+Whilst typing this message, there are several "layers" of abstraction running to make the website easy to develop and maintain. At the top layer there is Zoho's discussion framework. Next layer down there is jQuery (actually, there may even be another level of abstraction between this and Zoho's Framework, perhaps something like Drupal?). Next layer down there is JavaScript. Next layer down is C++ (because Chrome's V8 JavaScript Engine is built upon that). Next layer down is Assembly Language.
+
