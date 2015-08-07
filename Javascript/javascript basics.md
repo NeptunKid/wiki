@@ -175,6 +175,103 @@ g()
 ;( function() {}() )
 ```
 
+## 局部变量
+JavaScript 中局部变量只可能通过两种方式声明，一个是作为函数参数，另一个是通过 var 关键字声明。
+```javascript
+// 全局变量
+var foo = 1;
+var bar = 2;
+var i = 2;
+
+function test(i) {
+    // 函数 test 内的局部作用域
+    i = 5;
+
+    var foo = 3;
+    bar = 4;
+}
+test(10);
+```
+foo 和 i 是函数 test 内的局部变量，而对 bar 的赋值将会覆盖全局作用域内的同名变量。
+
+## 变量声明提升（Hoisting）
+
+JavaScript 会提升变量声明。这意味着 var 表达式和 function 声明都将会被提升到当前作用域的顶部。
+```javascript
+bar();
+var bar = function() {};
+var someValue = 42;
+
+test();
+function test(data) {
+    if (false) {
+        goo = 1;
+    } else {
+        var goo = 2;
+    }
+    for(var i = 0; i < 100; i++) {
+        var e = data[i];
+    }
+}
+```
+上面代码在运行之前将会被转化。JavaScript 将会把 var 表达式和 function 声明提升到当前作用域的顶部。
+```javascript
+// var 表达式被移动到这里
+var bar, someValue; // 缺省值是 'undefined'
+
+// 函数声明也会提升
+function test(data) {
+    var goo, i, e; // 没有块级作用域，这些变量被移动到函数顶部
+    if (false) {
+        goo = 1;
+    } else {
+        goo = 2;
+    }
+    for(i = 0; i < 100; i++) {
+        e = data[i];
+    }
+}
+
+bar(); // 出错：TypeError，因为 bar 依然是 'undefined'
+someValue = 42; // 赋值语句不会被提升规则（hoisting）影响
+bar = function() {};
+test();
+```
+
+没有块级作用域不仅导致 var 表达式被从循环内移到外部，而且使一些 if 表达式更难看懂。
+
+在原来代码中，if 表达式看起来修改了全局变量 goo，实际上在提升规则被应用后，却是在修改局部变量。
+
+如果没有提升规则（hoisting）的知识，下面的代码看起来会抛出异常 ReferenceError。
+```javascript
+// 检查 SomeImportantThing 是否已经被初始化
+if (!SomeImportantThing) {
+    var SomeImportantThing = {};
+}
+```
+实际上，上面的代码正常运行，因为 var 表达式会被提升到全局作用域的顶部。
+```javascript
+var SomeImportantThing;
+
+// 其它一些代码，可能会初始化 SomeImportantThing，也可能不会
+
+// 检查是否已经被初始化
+if (!SomeImportantThing) {
+    SomeImportantThing = {};
+}
+```
+
+在 Nettuts+ 网站有一篇介绍 hoisting 的文章，其中的代码很有启发性。
+http://code.tutsplus.com/tutorials/quick-tip-javascript-hoisting-explained--net-15092
+```javascript
+// 译者注：来自 Nettuts+ 的一段代码，生动的阐述了 JavaScript 中变量声明提升规则
+var myvar = 'my value';  
+
+(function() {  
+    alert(myvar); // undefined  
+    var myvar = 'local value';  
+})();  
+```
 
 ## Closure 闭包
 __A closure is a function having access to the parent scope, even after the parent function has closed.__
