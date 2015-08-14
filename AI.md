@@ -1,6 +1,8 @@
 
 ## Background:
+
 h(x) = Z (P(x) log2P(x))  x (- X
+
 tf * idf
 
 ## Steps:
