@@ -19,6 +19,15 @@ F(x1x2x3...x) = 0;
 F(x1x2x3...x) = 1;
 线性回归：设置learning rate: b = 0.1  
 sgd： 
-3. Sigmoid
+3. Sigmoid : 
 <img src='http://d.hiphotos.baidu.com/baike/s%3D99/sign=a46bd6f1dd33c895a27e9472d01340df/0df3d7ca7bcb0a4659502a5f6f63f6246b60af62.jpg'></img>
+4. Everything is a vector:  
+   [x1, x1, x3 ...]  
+   [y1,y2,y3 ...]
+   dist = ...
+  无标注学习：  K－mean 聚类  找出k个分类： 随机选取k个中心点，算距离
+5. SVM:支持向量机SVM(Support Vector Machine） 一条直线
+6. 人工神经网络：
+   计算能力需求高，回馈慢
+  
 
